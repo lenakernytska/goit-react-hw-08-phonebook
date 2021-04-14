@@ -1,0 +1,15 @@
+h1, h2{
+    color: blue;
+}
+
+
+body{
+    margin-left: 40px;
+     background-color: lightblue;
+}
+
+ul {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+}
