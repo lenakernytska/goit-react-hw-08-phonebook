@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import styles from './ContactForm.module.css'
-import {addContact} from "../redux/contacts/contacts-operations";
+import {addContact} from "../../redux/contacts/contacts-operations";
 
 
 export default function ContactForm (){
