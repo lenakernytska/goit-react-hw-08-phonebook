@@ -1,18 +1,21 @@
-import React, {useEffect}from "react";
+import React, {useEffect, Suspense, lazy}from "react";
 import { useDispatch } from "react-redux";
-import { Switch, Route } from 'react-router-dom';
-import ContactView from "./views/ContactView";
-import LoginView from "./views/LoginView";
-import RegisterView from "./views/RegisterView"
+import { Switch} from 'react-router-dom';
 import Container from "./components/Container";
 import AppBar from "./components/AppBar";
 import { getCurrentUser } from "./redux/auth/auth-operations";
+import PrivateRoute from "./components/PrivateRoute";
+import PublicRoute from "./components/PublicRoute"
 
 
+const HomeView = lazy(() => import('./views/HomeView/HomeView'/* webpackChunkName:'home-view'*/));
+const RegisterView = lazy(() => import('./views/RegisterView'/* webpackChunkName:'register-view'*/));
+const LoginView = lazy(() => import('./views/LoginView'/* webpackChunkName:'login-view'*/));
+const ContactView = lazy(() => import('./views/ContactView/ContactView'/* webpackChunkName:'contacts-view'*/));
 
 
 function App() {
-  
+
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -22,14 +25,15 @@ function App() {
 
   return (
       <Container>
-        <AppBar />
-
+      <AppBar />
+      <Suspense fallback={null}>
         <Switch>
-            {/* <Route exact path="/" component={HomeView} /> */}
-          <Route path="/register" component={RegisterView} />
-          <Route path="/login" component={LoginView} /> 
-          <Route path="/contacts" component={ContactView} />
+        <PublicRoute exact path="/"><HomeView /></PublicRoute>
+        <PublicRoute path="/register" restricted><RegisterView /></PublicRoute>
+        <PublicRoute path="/login" restricted><LoginView/></PublicRoute>
+        <PrivateRoute path="/contacts"><ContactView/></PrivateRoute>
         </Switch>
+        </Suspense>
       </Container>
     );
   }
